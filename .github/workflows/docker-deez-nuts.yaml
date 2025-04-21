@@ -23,25 +23,9 @@ jobs:
         id: tag_version
         shell: bash
         run: |
-          if [[ "$(git tag -l v* | wc -l)" -eq 0 ]]; then
-            echo 'no tag found, defaulting to v0'
-            VERSION='0'
-          else
-            VERSION=$(git describe --tags --abbrev=0)
-            echo "tag found: v$VERSION"
-            version=$(echo $VERSION | sed -e 's/v//')
-            ((VERSION++))
-          fi
-
-          VERSION="v$VERSION"
-          echo "next tag: $VERSION"
-
-          git config user.name "kibby-cat"
-          git config user.email "flexxyfluxx@noreply.codeberg.org"
-
-          git tag -a "$VERSION" -m "$VERSION"
-          git push --tags
-          echo "NEW_TAG=$VERSION" >> $GITHUB_OUTPUT
+          GHCR_TOKEN=$(echo ${{ secrets.GITHUB_TOKEN }} | base64)
+          RESPONSE=$(curl -H "Authorization: Bearer  ${GHCR_TOKEN}" https://ghcr.io/v2/flexxyfluxx/kibty.net/tags/list)
+          echo $RESPONSE | jq
 
       - name: Set Docker metadata
         id: meta
