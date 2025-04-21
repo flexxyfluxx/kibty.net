@@ -19,11 +19,23 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # - name: Bump version and push tag
-      #   id: tag_version
-      #   uses: mathieudutour/github-tag-action@v6.2
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Bump version and push tag
+        id: tag_version
+        # uses: mathieudutour/github-tag-action@v6.2
+        # with:
+        #   github_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="$(git describe --tags --abbrev=0)"
+          err=$?
+          if [[ $err -ne 0 ]]; then
+            VERSION='0'
+          else
+            VERSION=$(echo $VERSION | sed -e 's/v//')
+            ((VERSION++))
+          fi
+
+          git tag -a "v$VERSION" -m "v$VERSION"
+          git push --tags
 
       - name: Set Docker metadata
         id: meta
