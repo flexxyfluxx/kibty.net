@@ -22,7 +22,6 @@ jobs:
       - name: Bump version and push tag
         id: tag_version
         run: |
-          TOKEN="{{ github.GITHUB_TOKEN }}"
           if [[ "$(git tag -l v* | wc -l)" -eq 0 ]]; then
             VERSION='0'
           else
@@ -30,11 +29,14 @@ jobs:
             ((VERSION++))
           fi
 
-          git config user.name "kibby-cat"
-          git config user.email "flexxyfluxx@noreply.codeberg.org"
+          VERSION="v$VERSION"
 
-          git tag -a "v$VERSION" -m "v$VERSION"
-          git push --tags
+          git config user.name "kibby-cat" #> /dev/null
+          git config user.email "flexxyfluxx@noreply.codeberg.org" #> /dev/null
+
+          git tag -a "$VERSION" -m "$VERSION" #> /dev/null
+          git push --tags #> /dev/null
+          echo "NEW_TAG=$VERSION"
 
       - name: Set Docker metadata
         id: meta
@@ -44,7 +46,7 @@ jobs:
           tags: |
             type=raw,value=latest
             type=sha
-            type=raw,value=${{ steps.tag_version.outputs.new_tag }}
+            type=raw,value=${{ steps.tag_version.outputs.NEW_TAG }}
 
           labels: |
             org.opencontainers.image.source=https://github.com/flexxyfluxx/kibty.net
