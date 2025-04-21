@@ -22,8 +22,10 @@ jobs:
       - name: Bump version and push tag
         id: tag_version
         shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          GHCR_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          GHCR_TOKEN=$(echo $GITHUB_TOKEN | base64)
           RESPONSE=$(curl -H "Authorization: Bearer  ${GHCR_TOKEN}" https://ghcr.io/v2/flexxyfluxx/kibty.net/tags/list)
           echo $RESPONSE | jq
 
