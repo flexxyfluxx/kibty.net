@@ -23,7 +23,7 @@ jobs:
         id: tag_version
         shell: bash
         run: |
-          GHCR_TOKEN=$(echo ${{ secrets.GITHUB_TOKEN }} | base64)
+          GHCR_TOKEN=${{ secrets.GITHUB_TOKEN }}
           RESPONSE=$(curl -H "Authorization: Bearer  ${GHCR_TOKEN}" https://ghcr.io/v2/flexxyfluxx/kibty.net/tags/list)
           echo $RESPONSE | jq
 
