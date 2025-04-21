@@ -32,8 +32,8 @@ jobs:
 
           git tag -a "v$VERSION" -m "v$VERSION"
           git push --tags
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+        # with:
+        #   github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set Docker metadata
         id: meta
