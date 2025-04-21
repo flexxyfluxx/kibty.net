@@ -31,11 +31,11 @@ jobs:
 
           VERSION="v$VERSION"
 
-          git config user.name "kibby-cat" #> /dev/null
-          git config user.email "flexxyfluxx@noreply.codeberg.org" #> /dev/null
+          git config user.name "kibby-cat" > /dev/null
+          git config user.email "flexxyfluxx@noreply.codeberg.org" > /dev/null
 
-          git tag -a "$VERSION" -m "$VERSION" #> /dev/null
-          git push --tags #> /dev/null
+          git tag -a "$VERSION" -m "$VERSION" > /dev/null
+          git push --tags > /dev/null
           echo "NEW_TAG=$VERSION"
 
       - name: Set Docker metadata
