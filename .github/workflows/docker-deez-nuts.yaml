@@ -25,12 +25,10 @@ jobs:
         # with:
         #   github_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          VERSION="$(git describe --tags --abbrev=0)"
-          err=$?
-          if [[ $err -ne 0 ]]; then
+          if [[ "$(git tag -l v* | wc -l)" -eq 0 ]]; then
             VERSION='0'
           else
-            VERSION=$(echo $VERSION | sed -e 's/v//')
+            VERSION=$(git describe --tags --abbrev=0 | sed -e 's/v//')
             ((VERSION++))
           fi
 
