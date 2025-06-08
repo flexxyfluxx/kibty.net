@@ -29,6 +29,7 @@ jobs:
           RESPONSE=$(curl -H "Authorization: Bearer  ${GHCR_TOKEN}" https://ghcr.io/v2/flexxyfluxx/kibty.net/tags/list)
 
           echo $RESPONSE | jq
+          ls
           # if [[ "$(git tag -l v* | wc -l)" -eq 0 ]]; then
           #   echo 'no tag found, defaulting to v0'
           #   VERSION='0'
